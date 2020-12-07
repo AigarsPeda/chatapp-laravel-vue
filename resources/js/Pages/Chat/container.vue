@@ -8,9 +8,9 @@
 
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-          <MessageConatainer />
-          <InputMessage />
+        <div class="p-2 bg-white overflow-hidden shadow-xl sm:rounded-lg">
+          <MessageConatainer :messages="messages" />
+          <InputMessage :room="currentRoom" v-on:messagesnet="getMessages()" />
         </div>
       </div>
     </div>
@@ -49,7 +49,21 @@ export default {
     },
     setRoom(room) {
       this.currentRoom = room;
+      this.getMessages();
+    },
+    getMessages() {
+      axios
+        .get(`/chat/room/${this.currentRoom.id}/messages`)
+        .then(response => {
+          this.messages = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
+  },
+  created() {
+    this.getRooms();
   }
 };
 </script>
