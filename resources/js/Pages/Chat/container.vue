@@ -2,7 +2,12 @@
   <app-layout>
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Chat
+        <ChatRoomSelection
+          v-if="currentRoom.id"
+          :rooms="chatRomms"
+          :currentRoom="currentRoom"
+          v-on:roomchanged="setRoom($event)"
+        />
       </h2>
     </template>
 
@@ -21,12 +26,14 @@
 import AppLayout from "@/Layouts/AppLayout";
 import MessageConatainer from "./messageConatainer.vue";
 import InputMessage from "./inputMessage.vue";
+import ChatRoomSelection from "./chatRoomSelection.vue";
 
 export default {
   components: {
     AppLayout,
     MessageConatainer,
-    InputMessage
+    InputMessage,
+    ChatRoomSelection
   },
   data: function() {
     return {
